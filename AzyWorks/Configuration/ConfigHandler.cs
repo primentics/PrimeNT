@@ -16,7 +16,7 @@ namespace AzyWorks.Configuration
         internal IConfigConverter _converter;
         internal HashSet<ConfigDescriptor> _configs = new HashSet<ConfigDescriptor>();
 
-        public ConfigHandler(IConfigConverter configConverter) 
+        public ConfigHandler(IConfigConverter configConverter)
         {
             _converter = configConverter;
         }

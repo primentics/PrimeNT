@@ -65,7 +65,7 @@ namespace AzyWorks.Configuration
         {
             _curLinePos++;
 
-            if (_curLinePos > _buffer.Length)
+            if (_curLinePos >= _buffer.Length)
             {
                 return false;
             }
@@ -127,7 +127,7 @@ namespace AzyWorks.Configuration
 
         private bool TryPeekNextLine(int pos, out string line)
         {
-            if (pos > _buffer.Length)
+            if (pos >= _buffer.Length)
             {
                 line = null;
                 return false;

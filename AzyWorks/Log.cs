@@ -10,9 +10,6 @@ namespace AzyWorks
         {
             "ExceptionManager",
             "ReflectionUtils",
-            "Code Compiler",
-            "BinaryTools",
-            "UnityModule"
         };
 
         public static HashSet<string> BlacklistedSources { get; } = new HashSet<string>();
