@@ -89,16 +89,24 @@ namespace AzyWorks.Networking.Client
 
         public static void Connect()
         {
+            if (IsConnected)
+                Disconnect();
+
             _socket.Connect(Config.ServerEndpoint);
+        }
+
+        public static void Disconnect()
+        {
+            _connection?.Disconnect(true);
         }
 
         public static void Stop()
         {
-            _socket.Stop();
+            Disconnect();
+
+            _socket.Shutdown();
             _pollTimer.Stop();
-            _pollTimer.ResetTimer();
             _callbacks.Clear();
-            _connection = null;
 
             IsActive = false;
 
@@ -107,17 +115,11 @@ namespace AzyWorks.Networking.Client
 
         public static void Dispose()
         {
-            Stop();
-
-            _socket.Shutdown();
             _socket = null;
-            _pollTimer.Stop();
             _pollTimer = null;
             _callbacks = null;
 
             OnDisposed?.Invoke();
-
-            Log = null;
         }
 
         public static void Send(NetPayload payload)
