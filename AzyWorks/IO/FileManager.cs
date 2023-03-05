@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 namespace AzyWorks.IO
 {
-    public class FileManager : DisposableObject
+    public class FileManager 
     {
         private FileInfo _file;
         private FileVersionInfo _fv;
@@ -85,64 +85,46 @@ namespace AzyWorks.IO
 
         public void EncryptFile()
         {
-            ThrowIfDisposed();
-
             _file.Encrypt();
         }
 
         public void DecryptFile()
         {
-            ThrowIfDisposed();
-
             _file.Decrypt();
         }
 
         public void Delete()
         {
-            ThrowIfDisposed();
-
             _file.Delete();
         }
 
         public void Move(string path)
         {
-            ThrowIfDisposed();
-
             _file.MoveTo(path);
         }
 
         public FileManager Copy(string destination)
         {
-            ThrowIfDisposed();
-
             return new FileManager(_file.CopyTo(destination));
         }
 
         public StreamWriter OpenWriter()
         {
-            ThrowIfDisposed();
-
             return new StreamWriter(OpenFile());
         }
 
         public StreamReader OpenReader()
         {
-            ThrowIfDisposed();
-
             return new StreamReader(OpenFile());
         }
 
         public FileStream OpenFile()
         {
-            ThrowIfDisposed();
-
             return _file.Open(FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite);
         }
 
         public void Create(bool overwrite = false)
         {
-            ThrowIfDisposed();
-
             if (!Exists || overwrite)
                 File.Create(Path)
                     .Close();
@@ -150,57 +132,41 @@ namespace AzyWorks.IO
 
         public void WriteBytes(byte[] bytes)
         {
-            ThrowIfDisposed();
-
             File.WriteAllBytes(Path, bytes);
         }
 
         public void WriteLines(IEnumerable<string> lines)
         {
-            ThrowIfDisposed();
-
             File.WriteAllLines(Path, lines);
         }
 
         public void WriteLines(string[] lines)
         {
-            ThrowIfDisposed();
-
             File.WriteAllLines(Path, lines);
         }
 
         public void WriteLine(string line)
         {
-            ThrowIfDisposed();
-
             File.WriteAllLines(Path, new string[] { line });
         }
 
         public void WriteText(string text)
         {
-            ThrowIfDisposed();
-
             File.WriteAllText(Path, text);
         }
 
         public byte[] ReadBytes()
         {
-            ThrowIfDisposed();
-
             return File.ReadAllBytes(Path);
         }
 
         public IEnumerable<string> ReadLines()
         {
-            ThrowIfDisposed();
-
             return File.ReadAllLines(Path);
         }
 
         public string ReadText()
         {
-            ThrowIfDisposed();
-
             return File.ReadAllText(Path);
         }
 
@@ -255,14 +221,6 @@ namespace AzyWorks.IO
                 return $"{kb} KB";
 
             return $"{Size} B";
-        }
-
-        public override void Dispose()
-        {
-            base.Dispose();
-
-            _file = null;
-            _directory = null;
         }
 
         public static string CalculateHash(string path)

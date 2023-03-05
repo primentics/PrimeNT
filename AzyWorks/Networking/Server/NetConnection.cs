@@ -4,6 +4,7 @@ using Ruffles.Connections;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 
 namespace AzyWorks.Networking.Server
@@ -99,20 +100,23 @@ namespace AzyWorks.Networking.Server
 
             OnPayloadProcessed?.Invoke(netPayload);
 
+            var callbacks = _callbacks.ToList();
+
             foreach (var msg in netPayload.Messages)
             {
-                Log.Debug($"{msg}");
-
-                foreach (var callback in _callbacks)
+                foreach (var callback in callbacks)
                 {
                     if (callback.IsValid(msg))
                     {
                         callback.Execute(msg);
                     }
                 }
-
-                _callbacks.RemoveWhere(x => x.IsTemporary && x.IsValid(msg));
             }
+
+            callbacks.Clear();
+            callbacks = null;
+
+            _callbacks.RemoveWhere(x => x.IsTemporary && netPayload.Messages.Any(y => x.IsValid(y)));
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using AzyWorks.Utilities;
+﻿using AzyWorks.System;
 
 using System;
 using System.Collections.Generic;
@@ -66,7 +66,7 @@ namespace AzyWorks.Networking
 
         public static bool TryGetMessage(Type type, out INetMessage message)
         {
-            message = ReflectUtils.Instantiate<INetMessage>(type);
+            message = Reflection.Instantiate<INetMessage>(type);
 
             OnMessageCreated?.Invoke(message);
 

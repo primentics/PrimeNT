@@ -7,6 +7,7 @@ using Ruffles.Core;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace AzyWorks.Networking.Client
 {
@@ -15,6 +16,8 @@ namespace AzyWorks.Networking.Client
         private static Connection _connection;
         private static RuffleSocket _socket;
         private static Timer _pollTimer;
+
+        private static int _recAtt;
 
         private static HashSet<NetCallbackBase> _callbacks;
 
@@ -60,8 +63,8 @@ namespace AzyWorks.Networking.Client
                 {
                     UseIPv6Dual = false,
                     HandshakeTimeout = 2500,
-                    ConnectionTimeout = 1000,
-                    HeartbeatDelay = 500,
+                    ConnectionTimeout = 2500,
+                    HeartbeatDelay = 50,
                     ConnectionRequestTimeout = 1500,
                     ConnectionChallengeTimeWindow = 15
                 });
@@ -76,12 +79,17 @@ namespace AzyWorks.Networking.Client
 
                 Log.Info("Socket started.");
 
-                _socket.Connect(Config.ServerEndpoint);
+                Connect();
             }
             catch (Exception ex)
             {
                 Log.Error($"Start() failed: {ex}");
             }
+        }
+
+        public static void Connect()
+        {
+            _socket.Connect(Config.ServerEndpoint);
         }
 
         public static void Stop()
@@ -103,7 +111,7 @@ namespace AzyWorks.Networking.Client
 
             _socket.Shutdown();
             _socket = null;
-            _pollTimer.Dispose();
+            _pollTimer.Stop();
             _pollTimer = null;
             _callbacks = null;
 
@@ -154,6 +162,7 @@ namespace AzyWorks.Networking.Client
                     if (ev.Type is NetworkEventType.Connect)
                     {
                         _connection = ev.Connection;
+                        _recAtt = 0;
 
                         OnConnected?.Invoke();
                     }
@@ -162,6 +171,13 @@ namespace AzyWorks.Networking.Client
                         _connection = null;
 
                         OnDisconnected?.Invoke();
+
+                        if (Config.ReconnectAttempts > 0 && _recAtt < Config.ReconnectAttempts)
+                        {
+                            Task.Run(async () => await ReconnectAsync());
+
+                            _recAtt++;
+                        }
                     }
                     else if (ev.Type is NetworkEventType.Data)
                     {
@@ -193,6 +209,16 @@ namespace AzyWorks.Networking.Client
             {
                 Log.Error($"Poll() failed: {ex}");
             }
+        }
+
+        private static async Task ReconnectAsync()
+        {
+            if (_recAtt >= Config.ReconnectAttempts)
+                return;
+
+            await Task.Delay(Config.ReconnectTimeout);
+
+            Connect();
         }
     }
 }

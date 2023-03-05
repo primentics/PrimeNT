@@ -54,6 +54,15 @@
     <Reference Include="Fasterflect, Version=3.0.0.0, Culture=neutral, PublicKeyToken=38d18473284c1ca7, processorArchitecture=MSIL">
       <HintPath>..\packages\fasterflect.3.0.0\lib\netstandard20\netstandard20\Fasterflect.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=8.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.8.0.0-preview.1.23110.8\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.8.0.0-preview.1.23110.8\lib\net462\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.8.0.0-preview.1.23110.8\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3-beta1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -173,7 +182,7 @@
       <HintPath>..\packages\SystemInfoLibrary-devel.1.5.0.25\lib\net45\SystemInfoLibrary.dll</HintPath>
     </Reference>
     <Reference Include="UnitsNet, Version=5.0.0.0, Culture=neutral, PublicKeyToken=f8601875a1f041da, processorArchitecture=MSIL">
-      <HintPath>..\packages\UnitsNet.5.4.0\lib\netstandard2.0\UnitsNet.dll</HintPath>
+      <HintPath>..\packages\UnitsNet.5.5.0\lib\netstandard2.0\UnitsNet.dll</HintPath>
     </Reference>
     <Reference Include="YamlDotNet, Version=13.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e, processorArchitecture=MSIL">
       <HintPath>..\packages\YamlDotNet.13.0.1\lib\net47\YamlDotNet.dll</HintPath>
@@ -191,6 +200,8 @@
     <Compile Include="Configuration\Converters\IConfigConverter.cs" />
     <Compile Include="Encryption\SimpleEncryption.cs" />
     <Compile Include="Extensions\CollectionExtensions.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="IO\Binary\BinaryFile.cs" />
     <Compile Include="IO\Binary\BinaryFileDataContainer.cs" />
     <Compile Include="IO\Binary\BinaryHeader.cs" />
@@ -224,37 +235,32 @@
     <Compile Include="Pooling\PoolManager.cs" />
     <Compile Include="Pooling\Pools\ListPool.cs" />
     <Compile Include="Pooling\Pools\StringBuilderPool.cs" />
-    <Compile Include="Randomization\Weighted\IWeightable.cs" />
-    <Compile Include="Randomization\Weighted\WeightPicker.cs" />
-    <Compile Include="Reflection\OptionalValue.cs" />
-    <Compile Include="Services\ServiceCollection.cs" />
-    <Compile Include="Services\ServiceBase.cs" />
-    <Compile Include="Services\ServiceCollectionBase.cs" />
+    <Compile Include="System\Assert.cs" />
+    <Compile Include="System\CurrentSystem.cs" />
+    <Compile Include="System\DisposableBase.cs" />
+    <Compile Include="System\Exceptions\AssertionFailedException.cs" />
+    <Compile Include="System\RandomGenerator.cs" />
+    <Compile Include="System\Services\ServiceCollection.cs" />
+    <Compile Include="System\Services\IService.cs" />
+    <Compile Include="System\Services\IServiceCollection.cs" />
+    <Compile Include="System\Values\FlagEnumValue.cs" />
+    <Compile Include="System\Values\Optional.cs" />
+    <Compile Include="System\Weights\WeightItem.cs" />
+    <Compile Include="System\Weights\WeightPick.cs" />
     <Compile Include="Timers\StaticTimers.cs" />
     <Compile Include="Timers\Timer.cs" />
-    <Compile Include="Utilities\EnumBuilder.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Utilities\Assert.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities\LinuxCommand.cs" />
-    <Compile Include="Utilities\MathUtils.cs" />
-    <Compile Include="Utilities\ReflectUtils.cs" />
-    <Compile Include="Utilities\Conversion.cs" />
-    <Compile Include="Utilities\DisposableObject.cs" />
-    <Compile Include="Utilities\CommonUtils.cs" />
+    <Compile Include="System\Unix\LinuxCommand.cs" />
+    <Compile Include="System\Reflection.cs" />
     <Compile Include="Versioning\Release.cs" />
     <Compile Include="Versioning\ReleaseType.cs" />
-    <Compile Include="Utilities\StaticRandom.cs" />
-    <Compile Include="Utilities\SystemInfo.cs" />
-    <Compile Include="Utilities\ThrowHelper.cs" />
-    <Compile Include="Utilities\StringUtils.cs" />
     <Compile Include="Versioning\Version.cs" />
-    <Compile Include="Utilities\WinEmuFlag.cs" />
     <Compile Include="Waiters\Exceptions\WaitTimedOutException.cs" />
     <Compile Include="Waiters\Features\SpinWaiter.cs" />
     <Compile Include="Waiters\Features\TaskDelayWaiter.cs" />

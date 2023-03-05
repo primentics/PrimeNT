@@ -1,5 +1,5 @@
 ﻿using AzyWorks.Pooling.Pools;
-using AzyWorks.Utilities;
+using AzyWorks.System;
 
 using System;
 using System.Collections.Generic;
@@ -24,7 +24,7 @@ namespace AzyWorks.Pooling
             if (!TryGetPool<TPoolObject>(out var pool))
                 return default;
 
-            return ReflectUtils.As<TPoolObject>(pool.GetObject());
+            return Reflection.As<TPoolObject>(pool.GetObject());
         }
 
         public static bool TryGet<TPoolObject>(out TPoolObject poolObject)
@@ -37,7 +37,7 @@ namespace AzyWorks.Pooling
 
             if (pool.TryGetObject(out var result))
             {
-                poolObject = ReflectUtils.As<TPoolObject>(result);
+                poolObject = Reflection.As<TPoolObject>(result);
                 return true;
             }
             else

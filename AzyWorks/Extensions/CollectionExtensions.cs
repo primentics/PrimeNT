@@ -1,4 +1,7 @@
-﻿using System;
+﻿using AzyWorks.Pooling.Pools;
+using AzyWorks.System;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,6 +27,49 @@ namespace AzyWorks.Extensions
 
             return true;
         }    
+
+        public static void Shuffle<T>(this ICollection<T> source)
+        {
+            var copy = ListPool<T>.Instance.Get();
+            var size = copy.Count;
+
+            while (size > 1)
+            {
+                size--;
+
+                var index = RandomGenerator.Int32(0, size + 1);
+                var value = copy.ElementAt(index);
+
+                copy[index] = copy[size];
+                copy[size] = value;
+            }
+
+            source.Clear();
+
+            foreach (var value in copy)
+                source.Add(value);
+
+            ListPool<T>.Instance.Push(copy);
+        }
+
+        public static void AddRange<T>(this ICollection<T> destination, IEnumerable<T> source)
+        {
+            foreach (var item in source)
+            {
+                destination.Add(item);
+            }
+        }
+
+        public static void AddRange<T>(this ICollection<T> destination, IEnumerable<T> source, Func<T, bool> condition)
+        {
+            foreach (var item in source)
+            {
+                if (!condition(item))
+                    continue;
+
+                destination.Add(item);
+            }
+        }
 
         public static bool TryDequeue<T>(this Queue<T> queue, out T value)
         {

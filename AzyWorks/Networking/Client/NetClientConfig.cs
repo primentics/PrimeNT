@@ -6,6 +6,9 @@ namespace AzyWorks.Networking.Client
     {
         private IPEndPoint _endPoint;
 
+        public int ReconnectAttempts { get; set; } = 5;
+        public int ReconnectTimeout { get; set; } = 1500;
+
         public int Port { get; set; } = 8888;
 
         public IPEndPoint ServerEndpoint

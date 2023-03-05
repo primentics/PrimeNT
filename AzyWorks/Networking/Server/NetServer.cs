@@ -48,8 +48,8 @@ namespace AzyWorks.Networking.Server
                 {
                     UseIPv6Dual = false,
                     HandshakeTimeout = 2500,
-                    ConnectionTimeout = 1000,
-                    HeartbeatDelay = 500,
+                    ConnectionTimeout = 2500,
+                    HeartbeatDelay = 50,
                     ConnectionRequestTimeout = 1500,
                     ConnectionChallengeTimeWindow = 15,
                     DualListenPort = Config.Port,
@@ -91,7 +91,7 @@ namespace AzyWorks.Networking.Server
             _socket.Shutdown();
             _socket = null;
             _connections = null;
-            _pollTimer.Dispose();
+            _pollTimer.Stop();
             _pollTimer = null;
 
             OnDisposed?.Invoke();

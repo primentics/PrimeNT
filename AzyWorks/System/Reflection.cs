@@ -4,12 +4,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
-using AzyWorks.Reflection;
 using AzyWorks.Extensions;
+using AzyWorks.System.Values;
 
-namespace AzyWorks.Utilities
+namespace AzyWorks.System
 {
-    public static class ReflectUtils
+    public static class Reflection
     {
         public static readonly IReadOnlyList<TypeCode> PrimitiveTypes = new List<TypeCode>() 
                                                                         { TypeCode.Boolean, TypeCode.Byte, TypeCode.SByte, TypeCode.Int16,
@@ -127,10 +127,9 @@ namespace AzyWorks.Utilities
         public static TValue ExecuteReturn<TType, TValue>(string methodName, TType handle = default, params object[] parameters)
             => ExecuteReturn<TValue>(typeof(TType), methodName, handle, parameters);
 
-        public static void SetFieldValue<T>(string fieldName, object value, OptionalValue<T> handle = null)
+        public static void SetFieldValue<T>(string fieldName, object value, Optional<T> handle = null)
         {
-            if (handle is null)
-                handle = OptionalValue<T>.FromNull();
+            Optional<T>.Ensure(ref handle);
 
             var type = typeof(T);
 
@@ -148,10 +147,9 @@ namespace AzyWorks.Utilities
             field.SetValue(handle.Value, value);
         }
 
-        public static void SetPropertyValue<T>(string propertyName, object value, OptionalValue<T> handle = null)
+        public static void SetPropertyValue<T>(string propertyName, object value, Optional<T> handle = null)
         {
-            if (handle is null)
-                handle = OptionalValue<T>.FromNull();
+            Optional<T>.Ensure(ref handle);
 
             var type = typeof(T);
 

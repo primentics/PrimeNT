@@ -1,4 +1,4 @@
-﻿using AzyWorks.Utilities;
+﻿using AzyWorks.Extensions;
 
 using System;
 

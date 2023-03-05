@@ -2,7 +2,7 @@
 
 namespace AzyWorks.Utilities
 {
-    public class LinuxCommand : DisposableObject
+    public class LinuxCommand 
     {
         private string _command = "";
         private string _output = "";
@@ -12,8 +12,6 @@ namespace AzyWorks.Utilities
 
         public LinuxCommand WithArg(string command)
         {
-            ThrowIfDisposed();
-
             _command += $" {command}";
             _command = _command.Replace("\"", "\"\"");
 
@@ -22,15 +20,11 @@ namespace AzyWorks.Utilities
 
         public LinuxCommand WithExecute(string fileName)
         {
-            ThrowIfDisposed();
-
             return WithArg($"bash {fileName}");
         }
 
         public string Execute()
         {
-            ThrowIfDisposed();
-
             var process = CreateCommandProcess();
 
             ExecuteProcess(process);
@@ -50,23 +44,17 @@ namespace AzyWorks.Utilities
 
         private void ExecuteProcess(Process process)
         {
-            ThrowIfDisposed();
-
             process.Start();
             process.WaitForExit();
         }
 
         private string ReadOutput(Process process)
         {
-            ThrowIfDisposed();
-
             return process.StandardOutput.ReadToEnd();
         }
 
         private Process CreateCommandProcess()
         {
-            ThrowIfDisposed();
-
             return new Process
             {
                 StartInfo = new ProcessStartInfo
@@ -83,14 +71,6 @@ namespace AzyWorks.Utilities
         private void DisposeProcess(Process process)
         {
             process.Dispose();
-        }
-
-        public override void Dispose()
-        {
-            base.Dispose();
-
-            _command = null;
-            _output = null;
         }
 
         public static bool IsAptPackageInstalled(string packageName)
@@ -188,9 +168,6 @@ namespace AzyWorks.Utilities
         public static string ReadOutput(LinuxCommand command)
         {
             var output = command.Execute();
-
-            command.Dispose();
-
             return output;
         }
     }

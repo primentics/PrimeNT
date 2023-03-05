@@ -1,15 +1,12 @@
-﻿using AzyWorks.Logging;
-using AzyWorks.Utilities;
-
-using System;
+﻿using System;
 using System.Timers;
 
 namespace AzyWorks.Timers
 {
-    public class Timer : DisposableObject
+    public class Timer 
     {
         private double _interval;
-        private System.Timers.Timer _timer;
+        private global::System.Timers.Timer _timer;
         private Action<DateTime, double> _onElapsed;
         private double _elapsed;
         private string _id;
@@ -27,7 +24,7 @@ namespace AzyWorks.Timers
             _id = id;
             _onElapsed = onElapsed;
             _interval = interval;
-            _timer = new System.Timers.Timer(_interval);
+            _timer = new global::System.Timers.Timer(_interval);
             _timer.Elapsed += OnTimerElapsed;
 
             if (autoStart)
@@ -36,16 +33,12 @@ namespace AzyWorks.Timers
 
         private void OnTimerElapsed(object sender, ElapsedEventArgs e)
         {
-            ThrowIfDisposed();
-
             _elapsed += _interval;
             _onElapsed?.Invoke(e.SignalTime, _elapsed);
         }
 
         public void Start()
         {
-            ThrowIfDisposed();
-
             if (_timer != null)
             {
                 if (!_timer.Enabled)
@@ -57,8 +50,6 @@ namespace AzyWorks.Timers
 
         public void Stop()
         {
-            ThrowIfDisposed();
-
             if (_timer != null)
             {
                 if (_timer.Enabled)
@@ -70,28 +61,14 @@ namespace AzyWorks.Timers
 
         public void ResetTimer()
         {
-            ThrowIfDisposed();
-
             _elapsed = 0;
         }
 
         public void Restart()
         {
-            ThrowIfDisposed();
-
             Stop();
             ResetTimer();
             Start();
-        }
-
-        public override void Dispose()
-        {
-            base.Dispose();
-
-            _timer?.Dispose();
-            _onElapsed = null;
-            _id = null;
-            _elapsed = 0;
         }
     }
 }

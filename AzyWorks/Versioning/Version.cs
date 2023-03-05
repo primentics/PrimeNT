@@ -37,7 +37,7 @@ namespace AzyWorks.Versioning
                 Build = build
             };
 
-        public static Version Get(System.Version version, Release release)
+        public static Version Get(global::System.Version version, Release release)
             => new Version
             {
                 Major = version.Major,

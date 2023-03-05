@@ -37,7 +37,6 @@ namespace AzyWorks.Timers
         public static void Dispose(string id)
         {
             _timers[id].Stop();
-            _timers[id].Dispose();
             _timers.Remove(id);
         }
 

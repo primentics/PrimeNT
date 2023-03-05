@@ -26,7 +26,7 @@ namespace AzyWorks.Configuration.Converters.Yaml
 
                 if (value is null)
                 {
-                    writer.Write("null");
+                    writer.Write("null\n");
                     return true;
                 }
 
